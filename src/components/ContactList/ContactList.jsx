@@ -7,12 +7,13 @@ const ContactList = ({ filteredContactsList, deleteContact }) => {
   return (
     <ul className={css.contactsList}>
       {filteredContactsList.map(contact => {
-        const { name, number } = contact;
+        const { name, number, id } = contact;
         return (
           <ContactListItem
             key={name}
             name={name}
             number={number}
+            id={id}
             onClick={deleteContact}
           ></ContactListItem>
         );

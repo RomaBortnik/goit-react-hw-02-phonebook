@@ -9,12 +9,31 @@ class ContactForm extends Component {
     number: '',
   };
 
-  updateState = event => {
-    this.setState({
-      name: event.target.elements.name.value,
-      number: event.target.elements.number.value,
-    });
+  handleChange = event => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
   };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    const { contacts, addContact } = this.props;
+    const { name, number } = this.state;
+
+    const nameValueToLowerCase = name.toLowerCase();
+    const equalEl = contacts.find(
+      contact => contact.name.toLowerCase() === nameValueToLowerCase
+    );
+    if (equalEl) {
+      return alert(`${name} is already in contacts`);
+    }
+
+    addContact(name, number);
+    this.reset();
+  };
+
+  reset() {
+    this.setState({ name: '', number: '' });
+  }
 
   render() {
     const {
@@ -23,9 +42,8 @@ class ContactForm extends Component {
       contactsFormInput,
       contactsFormBtn,
     } = css;
-
     return (
-      <form className={contactsForm} onSubmit={this.props.onSubmit}>
+      <form className={contactsForm} onSubmit={this.handleSubmit}>
         <label className={contactsFormLabel}>
           Name
           <input
@@ -35,6 +53,8 @@ class ContactForm extends Component {
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
+            value={this.state.name}
+            onChange={this.handleChange}
           />
         </label>
         <label className={contactsFormLabel}>
@@ -46,6 +66,8 @@ class ContactForm extends Component {
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
+            value={this.state.number}
+            onChange={this.handleChange}
           />
         </label>
 
@@ -58,7 +80,14 @@ class ContactForm extends Component {
 }
 
 ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    })
+  ).isRequired,
+  addContact: PropTypes.func.isRequired,
 };
 
 export default ContactForm;
