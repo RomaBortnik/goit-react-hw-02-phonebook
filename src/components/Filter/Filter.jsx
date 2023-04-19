@@ -5,7 +5,7 @@ import css from './Filter.module.css';
 const Filter = ({ onChange }) => {
   const { contactsListLabel, contactsFormInput } = css;
   return (
-    <label className={contactsListLabel} htmlFor="">
+    <label className={contactsListLabel}>
       Find contacts by name
       <input
         onChange={onChange}

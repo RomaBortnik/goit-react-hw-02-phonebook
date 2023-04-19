@@ -20,6 +20,7 @@ const ContactListItem = ({ name, number, id, onClick }) => {
 ContactListItem.propTypes = {
   name: PropTypes.string.isRequired,
   number: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 

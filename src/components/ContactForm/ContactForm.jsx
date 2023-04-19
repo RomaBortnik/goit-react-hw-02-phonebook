@@ -16,16 +16,8 @@ class ContactForm extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { contacts, addContact } = this.props;
+    const { addContact } = this.props;
     const { name, number } = this.state;
-
-    const nameValueToLowerCase = name.toLowerCase();
-    const equalEl = contacts.find(
-      contact => contact.name.toLowerCase() === nameValueToLowerCase
-    );
-    if (equalEl) {
-      return alert(`${name} is already in contacts`);
-    }
 
     addContact(name, number);
     this.reset();
@@ -80,13 +72,6 @@ class ContactForm extends Component {
 }
 
 ContactForm.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ).isRequired,
   addContact: PropTypes.func.isRequired,
 };
 
